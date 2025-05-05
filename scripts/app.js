@@ -1,32 +1,40 @@
-
 let newNum;
+let attempts = 0;
+const maxAttempts = 5;
 
-
-let startGame = document.getElementById("start")
-
-startGame.addEventListener('click', (e)=>{
-    e.preventDefault()
-    // Generate random numbers from 1 - 100
-    newNum = Math.floor(Math.random() * 100) + 1
-    console.log(newNum);
-
-
-});
-
-// Get the user numbe rinput
+let startGame = document.getElementById("start");
 let guessBtn = document.getElementById("guessButton");
 
-guessBtn.addEventListener("click", (e)=>{
+startGame.addEventListener('click', (e) => {
     e.preventDefault();
+    // Generate random number from 1 - 100
+    newNum = Math.floor(Math.random() * 100) + 1;
+    attempts = 0; // Reset attempts
+    console.log("New number:", newNum);
+});
+
+guessBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    if (attempts >= maxAttempts) {
+        console.log("You've used all your attempts! Please restart the game.");
+        return;
+    }
+
     let userNumber = document.getElementById("userGuess");
     let convertToNumber = parseInt(userNumber.value);
-    console.log(convertToNumber);
+    attempts++;
+    console.log(`Attempt ${attempts}: ${convertToNumber}`);
 
     if (newNum === convertToNumber) {
-        console.log("Got it");
-    }else if (convertToNumber < newNum) {
-        console.log("Number is too low")
+        console.log("🎉 Got it! You guessed the number.");
+    } else if (convertToNumber < newNum) {
+        console.log("The Number is too low");
     } else {
-        console.log("Number is too high")
+        console.log("The Number is too high");
+    }
+
+    if (attempts === maxAttempts && convertToNumber !== newNum) {
+        console.log(`❌ Game over. The correct number was ${newNum}.`);
     }
 });
